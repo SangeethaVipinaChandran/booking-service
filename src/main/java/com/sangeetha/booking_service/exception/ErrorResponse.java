@@ -1,0 +1,55 @@
+package com.sangeetha.booking_service.exception;
+
+import java.time.LocalDateTime;
+import java.util.Map;
+
+public class ErrorResponse {
+    private LocalDateTime timestamp;
+    private int status;
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public Map<String, String> getFieldErrors() {
+        return fieldErrors;
+    }
+
+    public void setFieldErrors(Map<String, String> fieldErrors) {
+        this.fieldErrors = fieldErrors;
+    }
+
+    private String message;
+    private Map<String, String> fieldErrors;
+
+    public ErrorResponse(int status, String message) {
+        this.timestamp = LocalDateTime.now();
+        this.status = status;
+        this.message = message;
+    }
+
+    public ErrorResponse(int status, String message, Map<String, String> fieldErrors) {
+        this(status, message);
+        this.fieldErrors = fieldErrors;
+    }
+}
