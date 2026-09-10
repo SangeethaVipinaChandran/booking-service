@@ -1,5 +1,7 @@
 package com.sangeetha.booking_service.controller;
 
+import com.sangeetha.booking_service.dto.BookingRequest;
+import com.sangeetha.booking_service.dto.BookingResponse;
 import com.sangeetha.booking_service.dto.EventRequest;
 import com.sangeetha.booking_service.dto.EventResponse;
 import com.sangeetha.booking_service.service.EventService;
@@ -21,6 +23,11 @@ public class EventController {
     public EventResponse createEvent( @Valid @RequestBody EventRequest request)
     {
         return eventService.createEvent(request);
+    }
+
+    @PostMapping("/{id}/bookings")
+    public BookingResponse bookTickets(@PathVariable Long id, @Valid @RequestBody BookingRequest request) {
+        return eventService.bookTickets(id, request);
     }
 
     @GetMapping

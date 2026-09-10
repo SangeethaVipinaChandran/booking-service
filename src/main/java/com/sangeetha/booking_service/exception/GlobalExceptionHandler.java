@@ -16,16 +16,30 @@ public class GlobalExceptionHandler {
         ErrorResponse error = new ErrorResponse(404, ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleValidation(MethodArgumentNotValidException ex) {
         Map<String, String> fieldErrors = new HashMap<>();
-        ex.getBindingResult().getFieldErrors().forEach(error -> fieldErrors.put(error.getField(), error.getDefaultMessage()) );
+        ex.getBindingResult().getFieldErrors().forEach(error -> fieldErrors.put(error.getField(), error.getDefaultMessage()));
         ErrorResponse response = new ErrorResponse(400, "Validation failed", fieldErrors);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGeneric(Exception ex) {
         ErrorResponse error = new ErrorResponse(500, "Something went wrong");
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+    }
+
+    @ExceptionHandler(InsufficientTicketsException.class)
+    public ResponseEntity<ErrorResponse> handleInsufficientTickets(InsufficientTicketsException ex) {
+        ErrorResponse error = new ErrorResponse(409, ex.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+    }
+
+    @ExceptionHandler(EventAlreadyPassedException.class)
+    public ResponseEntity<ErrorResponse> handleEventAlreadyPassed(EventAlreadyPassedException ex) {
+        ErrorResponse error = new ErrorResponse(409, ex.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
     }
 }
